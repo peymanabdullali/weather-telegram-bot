@@ -34,18 +34,21 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = update.getMessage();
-        Long chatId = message.getChatId();
-        try {
-            if (update.hasMessage() && update.getMessage().hasText()) {
-                nextStep(chatId, message.getText(), null);
-            } else if (message.getLocation() != null) {
-                WeatherResponse weatherResponse1 = service.fetchWeatherForCoordinate(
-                        message.getLocation().getLatitude(), message.getLocation().getLongitude());
-                nextStep(chatId, weatherResponse1.getCity().getName(), weatherResponse1);
+        if (update.hasMessage()) {
+            Message message = update.getMessage();
+            Long chatId = message.getChatId();
+            try {
+                if (update.getMessage().hasText()) {
+                    nextStep(chatId, message.getText(), null);
+                } else if (message.getLocation() != null) {
+
+                    WeatherResponse weatherResponse1 = service.fetchWeatherForCoordinate(
+                            message.getLocation().getLatitude(), message.getLocation().getLongitude());
+                    nextStep(chatId, weatherResponse1.getCity().getName(), weatherResponse1);
+                }
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
             }
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -61,8 +64,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     try {
                         if (response != null) {
                             weatherMessage(response, chatId, WeatherType.TODAY);
-                        }
-                        else {
+                        } else {
                             WeatherResponse weather2 = service.fetchWeatherForCityName(city);
                             weatherMessage(weather2, chatId, WeatherType.FIVE_DAY);
                         }
@@ -84,8 +86,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                     try {
                         if (response != null) {
                             weatherMessage(response, chatId, WeatherType.TODAY);
-                        }
-                        else {
+                        } else {
                             WeatherResponse weather2 = service.fetchWeatherForCityName(city);
                             weatherMessage(weather2, chatId, WeatherType.TODAY);
                         }
