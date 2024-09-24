@@ -25,21 +25,18 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-
+//    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    compileOnly("org.projectlombok:lombok")
 
-
+    implementation("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.3")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
 
-    implementation("org.telegram:telegrambots-spring-boot-starter:6.7.0")
-    implementation("org.telegram:telegrambots-abilities:6.7.0")
-
-    annotationProcessor("org.projectlombok:lombok")
-//    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
+    implementation("org.telegram:telegrambots-abilities:6.9.7.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

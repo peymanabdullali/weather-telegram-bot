@@ -1,26 +1,44 @@
 package org.example.telegrambot.model;
 
 import lombok.Data;
-import org.example.telegrambot.model.*;
 
 import java.util.List;
 
 @Data
 public class WeatherResponse {
 
-    private Coord coord;
-    private List<Weather> weather;
-    private Main main;
-    private Wind wind;
-    private Clouds clouds;
-    private Rain rain;
-    private Sys sys;
-    private String base;
-    private int visibility;
-    private int dt;
-    private String name;
-    private int timezone;
-    private int id;
-    private int cod;
+    private List<WeatherList> list;
+    private City city;
+
+    @Data
+    public static class WeatherList {
+        private Main main;
+        private List<Weather> weather;
+        private Wind wind;
+        private String dt_txt;
+    }
+
+    @Data
+    public static class Main {
+        private double temp;
+        private double feels_like;
+        private int humidity;
+    }
+
+    @Data
+    public static class Weather {
+        private String main;
+        private String description;
+    }
+
+    @Data
+    public static class Wind {
+        private double speed;
+    }
+
+    @Data
+    public static class City {
+        private String name;
+    }
 
 }
